@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohmmad Birro - ديكور</title>
+    <style>
+        /* أنماط CSS مع الحفاظ على الأصل وإضافة الأزرار الذهبية */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            /* منع تحديد النص في جميع العناصر */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            background: linear-gradient(145deg, #3a0303 0%, #1f0202 50%, #0a0101 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .slider { position: relative; width: 100%; height: 35vh; min-height: 200px; max-height: 280px; background: #000; overflow: hidden; flex-shrink: 0; }
+        .slider-images { position: relative; width: 100%; height: 100%; }
+        .slider-images img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; cursor: pointer; }
+        .slider-images img.active { opacity: 1; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 35px; height: 35px; background: rgba(58, 3, 3, 0.8); color: white; border: 1px solid #d4af37; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .slider-btn:hover { background: #3a0303; }
+        .slider-prev { left: 10px; }
+        .slider-next { right: 10px; }
+        .slider-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
+        .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid #d4af37; cursor: pointer; }
+        .slider-dot.active { background: #d4af37; }
+        .slider-counter { position: absolute; top: 10px; right: 10px; background: rgba(58, 3, 3, 0.8); color: white; padding: 4px 10px; border-radius: 15px; font-size: 12px; border: 1px solid #d4af37; z-index: 10; }
+        .content { padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        /* تحديث عنوان السيارة */
+        .car-title {
+            color: #d4af37;
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 5px;
+            font-weight: bold;
+        }
+        /* الخط الرقيق تحت العنوان */
+        .sub-title {
+            color: #f0e6d2;
+            font-size: 1.1em;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Cairo', 'Segoe UI', Arial, sans-serif;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* شبكة الأزرار الذهبية */
+        .gold-buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .gold-btn {
+            background: linear-gradient(145deg, #e6b422, #cf9f1f);
+            border: none;
+            border-radius: 8px;
+            padding: 14px 8px;
+            color: #1f0202;
+            font-weight: bold;
+            font-size: 1em;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.5), 0 2px 4px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #f5d742;
+        }
+        .gold-btn:hover {
+            background: linear-gradient(145deg, #f5c542, #e6b422);
+            transform: scale(1.02);
+            box-shadow: 0 6px 14px rgba(212, 175, 55, 0.8);
+        }
+        .gold-btn:active {
+            transform: scale(0.98);
+        }
+        /* تعطيل مؤقت للزر الرابع */
+        .gold-btn.disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: linear-gradient(145deg, #b8a35c, #9e8a4b);
+            pointer-events: none;
+        }
+        /* أيقونات صغيرة */
+        .btn-icon {
+            font-size: 1.2em;
+        }
+
+        .preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; touch-action: none; }
+        .preview-modal.active { opacity: 1; visibility: visible; }
+        .preview-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .preview-image-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
+        .preview-image { max-width: 90%; max-height: 80vh; object-fit: contain; border: 2px solid #d4af37; border-radius: 5px; transition: transform 0.1s ease; transform-origin: center center; transform: scale(var(--zoom-level, 1)) translate(var(--translate-x, 0px), var(--translate-y, 0px)); will-change: transform; touch-action: none; }
+        .preview-close { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: #3a0303; color: white; border: 1px solid #d4af37; border-radius: 50%; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2001; }
+        .preview-counter { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: #3a0303; color: white; padding: 6px 18px; border-radius: 20px; font-size: 13px; border: 1px solid #d4af37; z-index: 2001; }
+        .preview-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: #3a0303; color: white; border: 1px solid #d4af37; border-radius: 50%; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2001; }
+        .preview-prev { left: 15px; }
+        .preview-next { right: 15px; }
+
+        @media (max-height: 600px) { .slider { height: 30vh; min-height: 160px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="slider" id="slider">
+            <div class="slider-images" id="sliderImages"></div>
+            <button class="slider-btn slider-prev" onclick="prevSlide()">❮</button>
+            <button class="slider-btn slider-next" onclick="nextSlide()">❯</button>
+            <div class="slider-dots" id="sliderDots"></div>
+            <div class="slider-counter" id="sliderCounter">1 / 4</div>
+        </div>
+        <div class="content">
+            <div>
+                <h1 class="car-title" id="carName">Mohmmad Birro</h1>
+                <div class="sub-title">لأعمال الديكور</div>
+                
+                <!-- الأزرار الذهبية الأربعة -->
+                <div class="gold-buttons-grid">
+                    <!-- زر الاتصال -->
+                    <a href="tel:+905551869717" class="gold-btn" target="_blank">
+                        <span class="btn-icon">📞</span> اتصال
+                    </a>
+                    <!-- زر واتساب -->
+                    <a href="https://wa.me/905551869717" class="gold-btn" target="_blank">
+                        <span class="btn-icon">📱</span> واتساب
+                    </a>
+                    <!-- زر إنستغرام -->
+                    <a href="https://instagram.com/mohamadbro55" class="gold-btn" target="_blank">
+                        <span class="btn-icon">📷</span> إنستغرام
+                    </a>
+                    <!-- زر رابع فارغ (مؤقتاً غير قابل للنقر) -->
+                    <div class="gold-btn disabled" onclick="return false;">
+                        <span class="btn-icon">⏳</span> قريباً
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة معاينة الصور (كما هي دون تعديل) -->
+    <div class="preview-modal" id="previewModal" onclick="closePreview(event)">
+        <div class="preview-close" onclick="closePreview()">✕</div>
+        <div class="preview-nav preview-prev" onclick="prevPreviewImage()">❮</div>
+        <div class="preview-nav preview-next" onclick="nextPreviewImage()">❯</div>
+        <div class="preview-container">
+            <div class="preview-image-wrapper" id="previewImageWrapper">
+                <img class="preview-image" id="previewImage" src="" alt="معاينة" style="--zoom-level: 1; --translate-x: 0px; --translate-y: 0px;">
+            </div>
+        </div>
+        <div class="preview-counter" id="previewCounter"></div>
+    </div>
+
+    <script>
+        // بيانات المحتوى (تم حذف بيانات السيارة واستبدالها بالصور فقط)
+        const pageData = {
+            name: 'Mohmmad Birro',
+            images: [
+                'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600',
+                'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600',
+                'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600'
+            ]
+        };
+
+        let currentIndex = 0;
+        let previewIndex = 0;
+        let currentZoom = 1;
+        let translateX = 0, translateY = 0;
+        let initialDistance = null;
+        let initialZoom = 1;
+        let touchStartX = 0, touchStartY = 0;
+        let isTouching = false;
+
+        window.onload = function() {
+            loadSliderImages();
+            
+            // منع أحداث النسخ والقص واللصق (بدون رسالة)
+            document.addEventListener('copy', function(e) { e.preventDefault(); });
+            document.addEventListener('cut', function(e) { e.preventDefault(); });
+            document.addEventListener('paste', function(e) { e.preventDefault(); });
+            
+            // منع قائمة السياق (الزر الأيمن للفأرة)
+            document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+            
+            // منع اختصار النسخ Ctrl+C و Ctrl+X
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x')) {
+                    e.preventDefault();
+                }
+            });
+        };
+
+        function loadSliderImages() {
+            const sliderDiv = document.getElementById('sliderImages');
+            const dotsDiv = document.getElementById('sliderDots');
+            pageData.images.forEach((imgSrc, index) => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = pageData.name;
+                img.onclick = () => openPreview(index);
+                if (index === 0) img.className = 'active';
+                sliderDiv.appendChild(img);
+            });
+            pageData.images.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToSlide(index);
+                dotsDiv.appendChild(dot);
+            });
+            updateCounter();
+        }
+
+        window.goToSlide = function(index) {
+            const images = document.querySelectorAll('.slider-images img');
+            const dots = document.querySelectorAll('.slider-dot');
+            if (index >= 0 && index < images.length) {
+                images.forEach(img => img.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                images[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentIndex = index;
+                updateCounter();
+            }
+        };
+
+        window.prevSlide = function() {
+            let newIndex = currentIndex - 1;
+            if (newIndex < 0) newIndex = pageData.images.length - 1;
+            goToSlide(newIndex);
+        };
+
+        window.nextSlide = function() {
+            let newIndex = currentIndex + 1;
+            if (newIndex >= pageData.images.length) newIndex = 0;
+            goToSlide(newIndex);
+        };
+
+        function updateCounter() {
+            document.getElementById('sliderCounter').textContent = `${currentIndex + 1} / ${pageData.images.length}`;
+        }
+
+        // دوال المعاينة (كما هي مع تعديل بسيط لاستخدام pageData.images)
+        window.openPreview = function(index) {
+            previewIndex = index;
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            updatePreviewTransform();
+            const modal = document.getElementById('previewModal');
+            const previewImg = document.getElementById('previewImage');
+            previewImg.src = pageData.images[index];
+            document.getElementById('previewCounter').textContent = `${index + 1} / ${pageData.images.length}`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setupTouchListeners();
+        };
+
+        window.closePreview = function(event) {
+            if (!event || event.target.classList.contains('preview-modal') || event.target.classList.contains('preview-close')) {
+                document.getElementById('previewModal').classList.remove('active');
+                document.body.style.overflow = '';
+                removeTouchListeners();
+            }
+        };
+
+        window.prevPreviewImage = function() {
+            previewIndex = (previewIndex - 1 + pageData.images.length) % pageData.images.length;
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            updatePreviewTransform();
+            updatePreviewImage();
+        };
+
+        window.nextPreviewImage = function() {
+            previewIndex = (previewIndex + 1) % pageData.images.length;
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            updatePreviewTransform();
+            updatePreviewImage();
+        };
+
+        function updatePreviewImage() {
+            document.getElementById('previewImage').src = pageData.images[previewIndex];
+            document.getElementById('previewCounter').textContent = `${previewIndex + 1} / ${pageData.images.length}`;
+        }
+
+        function updatePreviewTransform() {
+            const previewImage = document.getElementById('previewImage');
+            previewImage.style.setProperty('--zoom-level', currentZoom);
+            previewImage.style.setProperty('--translate-x', translateX + 'px');
+            previewImage.style.setProperty('--translate-y', translateY + 'px');
+        }
+
+        function setupTouchListeners() {
+            const wrapper = document.getElementById('previewImageWrapper');
+            wrapper.addEventListener('touchstart', handleTouchStart, { passive: false });
+            wrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
+            wrapper.addEventListener('touchend', handleTouchEnd);
+        }
+
+        function removeTouchListeners() {
+            const wrapper = document.getElementById('previewImageWrapper');
+            wrapper.removeEventListener('touchstart', handleTouchStart);
+            wrapper.removeEventListener('touchmove', handleTouchMove);
+            wrapper.removeEventListener('touchend', handleTouchEnd);
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touches = e.touches;
+            if (touches.length === 2) {
+                const dx = touches[0].clientX - touches[1].clientX;
+                const dy = touches[0].clientY - touches[1].clientY;
+                initialDistance = Math.sqrt(dx * dx + dy * dy);
+                initialZoom = currentZoom;
+            } else if (touches.length === 1 && currentZoom > 1) {
+                isTouching = true;
+                touchStartX = touches[0].clientX - translateX;
+                touchStartY = touches[0].clientY - translateY;
+            }
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            const touches = e.touches;
+            if (touches.length === 2) {
+                const dx = touches[0].clientX - touches[1].clientX;
+                const dy = touches[0].clientY - touches[1].clientY;
+                const currentDistance = Math.sqrt(dx * dx + dy * dy);
+                if (initialDistance) {
+                    const scale = currentDistance / initialDistance;
+                    let newZoom = initialZoom * scale;
+                    newZoom = Math.max(0.5, Math.min(3, newZoom));
+                    if (newZoom !== currentZoom) {
+                        currentZoom = newZoom;
+                        updatePreviewTransform();
+                    }
+                }
+            } else if (touches.length === 1 && currentZoom > 1 && isTouching) {
+                const touch = touches[0];
+                const newTranslateX = touch.clientX - touchStartX;
+                const newTranslateY = touch.clientY - touchStartY;
+                const maxTranslate = 100 * (currentZoom - 1);
+                translateX = Math.max(-maxTranslate, Math.min(maxTranslate, newTranslateX));
+                translateY = Math.max(-maxTranslate, Math.min(maxTranslate, newTranslateY));
+                updatePreviewTransform();
+            }
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            initialDistance = null;
+            isTouching = false;
+        }
+
+        // تشغيل التبديل التلقائي للسلايدر (كما في الأصل)
+        let autoSlide = setInterval(() => nextSlide(), 2000);
+        document.getElementById('slider').addEventListener('mouseenter', () => { clearInterval(autoSlide); });
+        document.getElementById('slider').addEventListener('mouseleave', () => { autoSlide = setInterval(() => nextSlide(), 2000); });
+    </script>
+</body>
+</html>
