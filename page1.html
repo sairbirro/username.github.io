@@ -35,31 +35,169 @@
             display: flex;
             flex-direction: column;
         }
-        .slider { position: relative; width: 100%; height: 35vh; min-height: 200px; max-height: 280px; background: #000; overflow: hidden; flex-shrink: 0; }
-        .slider-images { position: relative; width: 100%; height: 100%; }
-        .slider-images img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; cursor: pointer; }
-        .slider-images img.active { opacity: 1; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 35px; height: 35px; background: rgba(58, 3, 3, 0.8); color: white; border: 1px solid #d4af37; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
-        .slider-btn:hover { background: #3a0303; }
+        .slider { 
+            position: relative; 
+            width: 100%; 
+            height: 35vh; 
+            min-height: 200px; 
+            max-height: 280px; 
+            background: #000; 
+            overflow: hidden; 
+            flex-shrink: 0; 
+        }
+        .slider-images { 
+            position: relative; 
+            width: 100%; 
+            height: 100%; 
+        }
+        .slider-images img { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            opacity: 0; 
+            transition: opacity 0.5s ease; 
+            cursor: pointer; 
+        }
+        .slider-images img.active { 
+            opacity: 1; 
+        }
+        .slider-btn { 
+            position: absolute; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            width: 35px; 
+            height: 35px; 
+            background: rgba(58, 3, 3, 0.8); 
+            color: white; 
+            border: 1px solid #d4af37; 
+            border-radius: 50%; 
+            font-size: 18px; 
+            cursor: pointer; 
+            z-index: 10; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .slider-btn:hover { 
+            background: #3a0303; 
+            transform: translateY(-50%) scale(1.1);
+        }
         .slider-prev { left: 10px; }
         .slider-next { right: 10px; }
-        .slider-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
-        .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid #d4af37; cursor: pointer; }
-        .slider-dot.active { background: #d4af37; }
-        .slider-counter { position: absolute; top: 10px; right: 10px; background: rgba(58, 3, 3, 0.8); color: white; padding: 4px 10px; border-radius: 15px; font-size: 12px; border: 1px solid #d4af37; z-index: 10; }
-        .content { padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .car-title { color: #d4af37; font-size: 1.5em; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #d4af37; padding-bottom: 5px; }
-        .info-grid { display: flex; gap: 10px; margin-bottom: 12px; }
-        .info-item { flex: 1; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 8px; text-align: center; }
-        .info-label { color: #d4af37; font-size: 0.7em; margin-bottom: 3px; }
-        .info-value { color: white; font-size: 0.95em; font-weight: bold; }
+        .slider-dots { 
+            position: absolute; 
+            bottom: 10px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            display: flex; 
+            gap: 6px; 
+            z-index: 10; 
+        }
+        .slider-dot { 
+            width: 8px; 
+            height: 8px; 
+            border-radius: 50%; 
+            background: rgba(255, 255, 255, 0.4); 
+            border: 1px solid #d4af37; 
+            cursor: pointer; 
+        }
+        .slider-dot.active { 
+            background: #d4af37; 
+        }
+        .slider-counter { 
+            position: absolute; 
+            top: 10px; 
+            right: 10px; 
+            background: rgba(58, 3, 3, 0.8); 
+            color: white; 
+            padding: 4px 10px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            border: 1px solid #d4af37; 
+            z-index: 10; 
+        }
+        
+        /* شريط الحالة */
+        .condition-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #d4af37;
+            color: #3a0303;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: bold;
+            z-index: 20;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .content { 
+            padding: 15px; 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+        .car-title { 
+            color: #d4af37; 
+            font-size: 1.5em; 
+            text-align: center; 
+            margin-bottom: 10px; 
+            border-bottom: 1px solid #d4af37; 
+            padding-bottom: 5px; 
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .info-grid { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 12px; 
+        }
+        .info-item { 
+            flex: 1; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 8px; 
+            padding: 8px; 
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .info-item:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(212, 175, 55, 0.2);
+        }
+        .info-label { 
+            color: #d4af37; 
+            font-size: 0.7em; 
+            margin-bottom: 3px; 
+        }
+        .info-item:first-child .info-label::before {
+            content: "🏙️ ";
+            opacity: 0.8;
+        }
+        .info-item:last-child .info-label::before {
+            content: "✨ ";
+            opacity: 0.8;
+        }
+        .info-value { 
+            color: white; 
+            font-size: 1.1em; 
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
         
         /* حاوية السعر وزر الواتساب */
         .price-container {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .price-box { 
             flex: 1;
@@ -67,10 +205,30 @@
             border-radius: 8px; 
             padding: 8px; 
             text-align: center;
-            width: auto; /* تصغير العرض ليتناسب مع المحتوى */
+            width: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .price-label { color: #d4af37; font-size: 0.75em; margin-bottom: 3px; }
-        .price-value { color: #00ff00; font-size: 1.2em; font-weight: bold; }
+        .price-box:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(212, 175, 55, 0.2);
+        }
+        .price-label { 
+            color: #d4af37; 
+            font-size: 0.75em; 
+            margin-bottom: 3px; 
+        }
+        .price-value { 
+            color: #00ff00; 
+            font-size: 1.2em; 
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 5px rgba(0, 255, 0, 0.3); }
+            to { text-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+        }
         
         /* زر واتساب الجديد - أيقونة مفرغة */
         .whatsapp-icon-btn {
@@ -83,14 +241,21 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             padding: 0;
             flex-shrink: 0;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
         .whatsapp-icon-btn:hover {
             background: rgba(37, 211, 102, 0.1);
-            transform: scale(1.05);
+            transform: scale(1.1) rotate(5deg);
             border-color: #128c7e;
+            animation: none;
         }
         .whatsapp-icon-btn svg {
             width: 28px;
@@ -102,28 +267,153 @@
             fill: #128c7e;
         }
         
-        .description-box { border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 15px; flex: 2; min-height: 180px; max-height: 250px; overflow-y: auto; background: rgba(0, 0, 0, 0.2); }
-        .description-label { color: #d4af37; font-size: 0.75em; margin-bottom: 5px; }
-        .description-text { color: white; font-size: 0.95em; line-height: 1.6; text-align: right; }
+        .description-box { 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 8px; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            flex: 2; 
+            min-height: 180px; 
+            max-height: 250px; 
+            overflow-y: auto; 
+            background: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .description-box:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(212, 175, 55, 0.2);
+        }
+        .description-label { 
+            color: #d4af37; 
+            font-size: 0.75em; 
+            margin-bottom: 5px; 
+        }
+        .description-text { 
+            color: white; 
+            font-size: 0.95em; 
+            line-height: 1.6; 
+            text-align: right; 
+        }
         
         /* إخفاء الزر القديم */
         .old-whatsapp-btn {
             display: none;
         }
         
-        .preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; touch-action: none; }
-        .preview-modal.active { opacity: 1; visibility: visible; }
-        .preview-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-        .preview-image-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
-        .preview-image { max-width: 90%; max-height: 80vh; object-fit: contain; border: 2px solid #d4af37; border-radius: 5px; transition: transform 0.1s ease; transform-origin: center center; transform: scale(var(--zoom-level, 1)) translate(var(--translate-x, 0px), var(--translate-y, 0px)); will-change: transform; touch-action: none; }
-        .preview-close { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: #3a0303; color: white; border: 1px solid #d4af37; border-radius: 50%; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2001; }
-        .preview-counter { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: #3a0303; color: white; padding: 6px 18px; border-radius: 20px; font-size: 13px; border: 1px solid #d4af37; z-index: 2001; }
-        .preview-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: #3a0303; color: white; border: 1px solid #d4af37; border-radius: 50%; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2001; }
+        .preview-modal { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.95); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 2000; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: 0.3s; 
+            touch-action: none; 
+        }
+        .preview-modal.active { 
+            opacity: 1; 
+            visibility: visible; 
+        }
+        .preview-container { 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+            position: relative; 
+        }
+        .preview-image-wrapper { 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+            touch-action: none; 
+        }
+        .preview-image { 
+            max-width: 90%; 
+            max-height: 80vh; 
+            object-fit: contain; 
+            border: 2px solid #d4af37; 
+            border-radius: 5px; 
+            transition: transform 0.1s ease; 
+            transform-origin: center center; 
+            transform: scale(var(--zoom-level, 1)) translate(var(--translate-x, 0px), var(--translate-y, 0px)); 
+            will-change: transform; 
+            touch-action: none; 
+        }
+        .preview-close { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            width: 40px; 
+            height: 40px; 
+            background: #3a0303; 
+            color: white; 
+            border: 1px solid #d4af37; 
+            border-radius: 50%; 
+            font-size: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            z-index: 2001; 
+        }
+        .preview-counter { 
+            position: absolute; 
+            bottom: 15px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: #3a0303; 
+            color: white; 
+            padding: 6px 18px; 
+            border-radius: 20px; 
+            font-size: 13px; 
+            border: 1px solid #d4af37; 
+            z-index: 2001; 
+        }
+        .preview-nav { 
+            position: absolute; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            width: 40px; 
+            height: 40px; 
+            background: #3a0303; 
+            color: white; 
+            border: 1px solid #d4af37; 
+            border-radius: 50%; 
+            font-size: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            z-index: 2001; 
+        }
         .preview-prev { left: 15px; }
         .preview-next { right: 15px; }
-        .description-box::-webkit-scrollbar { width: 4px; }
-        .description-box::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); }
-        .description-box::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
+        
+        /* تحسين شريط التمرير */
+        .description-box::-webkit-scrollbar { 
+            width: 6px; 
+        }
+        .description-box::-webkit-scrollbar-track { 
+            background: rgba(255, 255, 255, 0.1); 
+        }
+        .description-box::-webkit-scrollbar-thumb { 
+            background: #d4af37; 
+            border-radius: 10px; 
+            border: 1px solid #3a0303; 
+        }
+        
         @media (max-height: 600px) { 
             .slider { height: 30vh; min-height: 160px; } 
             .description-box { min-height: 150px; max-height: 200px; } 
@@ -141,6 +431,17 @@
                 height: 24px;
             }
         }
+        @media (max-width: 320px) {
+            .price-container {
+                flex-wrap: wrap;
+            }
+            .whatsapp-icon-btn {
+                width: 100%;
+                border-radius: 30px;
+                margin-top: 5px;
+                animation: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -151,6 +452,7 @@
             <button class="slider-btn slider-next" onclick="nextSlide()">❯</button>
             <div class="slider-dots" id="sliderDots"></div>
             <div class="slider-counter" id="sliderCounter">1 / 4</div>
+            <div class="condition-badge">✨ جديد</div>
         </div>
         <div class="content">
             <div>
