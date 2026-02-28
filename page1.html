@@ -141,7 +141,6 @@
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            justify-content: space-between; 
         }
         .car-title { 
             color: #d4af37; 
@@ -159,37 +158,79 @@
             gap: 10px; 
             margin-bottom: 12px; 
         }
+        
+        /* تصميم البطاقات الزجاجية */
+        .info-item, .price-box, .description-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* تأثير اللمعة */
+        .info-item::before, .price-box::before, .description-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(30deg);
+            animation: shimmer 8s infinite linear;
+            pointer-events: none;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            20% { transform: translateX(100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
         .info-item { 
             flex: 1; 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 8px; 
-            padding: 8px; 
+            border-radius: 12px; 
+            padding: 10px; 
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         .info-item:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(212, 175, 55, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
         }
         .info-label { 
             color: #d4af37; 
             font-size: 0.7em; 
-            margin-bottom: 3px; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .info-item:first-child .info-label::before {
             content: "🏙️ ";
-            opacity: 0.8;
+            opacity: 0.9;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
         }
         .info-item:last-child .info-label::before {
             content: "✨ ";
-            opacity: 0.8;
+            opacity: 0.9;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
         }
         .info-value { 
             color: white; 
             font-size: 1.1em; 
             font-weight: bold;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 2;
         }
         
         /* حاوية السعر وزر الواتساب */
@@ -201,22 +242,23 @@
         }
         .price-box { 
             flex: 1;
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 8px; 
-            padding: 8px; 
+            border-radius: 12px; 
+            padding: 10px; 
             text-align: center;
             width: auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         .price-box:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(212, 175, 55, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
         }
         .price-label { 
             color: #d4af37; 
             font-size: 0.75em; 
-            margin-bottom: 3px; 
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .price-value { 
             color: #00ff00; 
@@ -224,10 +266,12 @@
             font-weight: bold;
             text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
             animation: glow 2s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
         }
         @keyframes glow {
-            from { text-shadow: 0 0 5px rgba(0, 255, 0, 0.3); }
-            to { text-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+            from { text-shadow: 0 0 5px rgba(0, 255, 0, 0.3), 0 2px 4px rgba(0,0,0,0.5); }
+            to { text-shadow: 0 0 15px rgba(0, 255, 0, 0.7), 0 2px 4px rgba(0,0,0,0.5); }
         }
         
         /* زر واتساب الجديد - أيقونة مفرغة */
@@ -245,55 +289,64 @@
             padding: 0;
             flex-shrink: 0;
             animation: pulse 2s infinite;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7), 0 4px 10px rgba(0,0,0,0.3); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0), 0 4px 15px rgba(0,0,0,0.4); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 4px 10px rgba(0,0,0,0.3); }
         }
         .whatsapp-icon-btn:hover {
-            background: rgba(37, 211, 102, 0.1);
+            background: rgba(37, 211, 102, 0.15);
             transform: scale(1.1) rotate(5deg);
             border-color: #128c7e;
             animation: none;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
         }
         .whatsapp-icon-btn svg {
             width: 28px;
             height: 28px;
             fill: #25d366;
             transition: fill 0.3s ease;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
         }
         .whatsapp-icon-btn:hover svg {
             fill: #128c7e;
         }
         
         .description-box { 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 8px; 
-            padding: 12px; 
+            border-radius: 12px; 
+            padding: 15px; 
+            margin-top: 5px; /* رفع المربع للأعلى */
             margin-bottom: 15px; 
             flex: 2; 
-            min-height: 180px; 
-            max-height: 250px; 
+            min-height: 160px; /* تقليل الارتفاع قليلاً */
+            max-height: 220px; 
             overflow-y: auto; 
-            background: rgba(0, 0, 0, 0.2);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         .description-box:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(212, 175, 55, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
         }
         .description-label { 
             color: #d4af37; 
             font-size: 0.75em; 
-            margin-bottom: 5px; 
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
         }
         .description-text { 
             color: white; 
             font-size: 0.95em; 
             line-height: 1.6; 
-            text-align: right; 
+            text-align: right;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
         
         /* إخفاء الزر القديم */
@@ -406,7 +459,8 @@
             width: 6px; 
         }
         .description-box::-webkit-scrollbar-track { 
-            background: rgba(255, 255, 255, 0.1); 
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 10px;
         }
         .description-box::-webkit-scrollbar-thumb { 
             background: #d4af37; 
@@ -416,10 +470,10 @@
         
         @media (max-height: 600px) { 
             .slider { height: 30vh; min-height: 160px; } 
-            .description-box { min-height: 150px; max-height: 200px; } 
+            .description-box { min-height: 130px; max-height: 180px; } 
         }
         @media (max-height: 700px) and (min-height: 601px) {
-            .description-box { min-height: 160px; max-height: 220px; }
+            .description-box { min-height: 140px; max-height: 200px; }
         }
         @media (max-width: 350px) {
             .whatsapp-icon-btn {
