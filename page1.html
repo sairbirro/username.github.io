@@ -53,31 +53,64 @@
         .info-item { flex: 1; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 8px; text-align: center; }
         .info-label { color: #d4af37; font-size: 0.7em; margin-bottom: 3px; }
         .info-value { color: white; font-size: 0.95em; font-weight: bold; }
-        .price-box { border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 8px; margin-bottom: 12px; text-align: center; }
+        
+        /* حاوية السعر وزر الواتساب */
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .price-box { 
+            flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 8px; 
+            padding: 8px; 
+            text-align: center;
+            width: auto; /* تصغير العرض ليتناسب مع المحتوى */
+        }
         .price-label { color: #d4af37; font-size: 0.75em; margin-bottom: 3px; }
         .price-value { color: #00ff00; font-size: 1.2em; font-weight: bold; }
-        .description-box { border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 15px; flex: 2; min-height: 180px; max-height: 250px; overflow-y: auto; background: rgba(0, 0, 0, 0.2); }
-        .description-label { color: #d4af37; font-size: 0.75em; margin-bottom: 5px; }
-        .description-text { color: white; font-size: 0.95em; line-height: 1.6; text-align: right; }
-        .whatsapp-btn {
-            background: #25d366;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 18px;
-            font-size: 0.8em;
-            font-weight: bold;
-            cursor: pointer;
+        
+        /* زر واتساب الجديد - أيقونة مفرغة */
+        .whatsapp-icon-btn {
+            background: transparent;
+            border: 2px solid #25d366;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-            margin: 5px auto 0;
-            width: fit-content;
+            cursor: pointer;
             transition: all 0.3s ease;
+            padding: 0;
+            flex-shrink: 0;
         }
-        .whatsapp-btn:hover { background: #128c7e; transform: scale(1.02); }
-        .whatsapp-btn span { font-size: 1em; }
+        .whatsapp-icon-btn:hover {
+            background: rgba(37, 211, 102, 0.1);
+            transform: scale(1.05);
+            border-color: #128c7e;
+        }
+        .whatsapp-icon-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: #25d366;
+            transition: fill 0.3s ease;
+        }
+        .whatsapp-icon-btn:hover svg {
+            fill: #128c7e;
+        }
+        
+        .description-box { border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 15px; flex: 2; min-height: 180px; max-height: 250px; overflow-y: auto; background: rgba(0, 0, 0, 0.2); }
+        .description-label { color: #d4af37; font-size: 0.75em; margin-bottom: 5px; }
+        .description-text { color: white; font-size: 0.95em; line-height: 1.6; text-align: right; }
+        
+        /* إخفاء الزر القديم */
+        .old-whatsapp-btn {
+            display: none;
+        }
+        
         .preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; touch-action: none; }
         .preview-modal.active { opacity: 1; visibility: visible; }
         .preview-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
@@ -98,6 +131,16 @@
         @media (max-height: 700px) and (min-height: 601px) {
             .description-box { min-height: 160px; max-height: 220px; }
         }
+        @media (max-width: 350px) {
+            .whatsapp-icon-btn {
+                width: 42px;
+                height: 42px;
+            }
+            .whatsapp-icon-btn svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -116,14 +159,28 @@
                     <div class="info-item"><div class="info-label">المحافظة</div><div class="info-value" id="carCity">دمشق</div></div>
                     <div class="info-item"><div class="info-label">الحالة</div><div class="info-value" id="carCondition">جديدة</div></div>
                 </div>
-                <div class="price-box"><div class="price-label">💰 السعر</div><div class="price-value" id="carPrice">250,000 دولار</div></div>
+                
+                <!-- حاوية السعر وزر الواتساب -->
+                <div class="price-container">
+                    <div class="price-box">
+                        <div class="price-label">💰 السعر</div>
+                        <div class="price-value" id="carPrice">250,000 دولار</div>
+                    </div>
+                    <button class="whatsapp-icon-btn" onclick="requestLocationAndSendMessage()" title="تواصل عبر واتساب">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.2-99.6 224.2-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54.5-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
+            
             <div class="description-box">
                 <div class="description-label">📋 الوصف</div>
                 <div class="description-text" id="carDescription"></div>
             </div>
-            <!-- زر واتساب المعدل ليطلب الموقع أولاً -->
-            <button class="whatsapp-btn" onclick="requestLocationAndSendMessage()">
+            
+            <!-- زر واتساب القديم (مخفي) -->
+            <button class="old-whatsapp-btn" onclick="requestLocationAndSendMessage()">
                 <span>📱</span> واتساب
             </button>
         </div>
